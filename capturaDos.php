@@ -85,6 +85,15 @@
             fclose($ar);
             echo "Los datos fueron guardados correctamente.";
         }
+
+        //Ejercicio 16
+        $ar = fopen('pedidos.txt', 'r') or die('No se pudo abrir el archivo txt');
+        while(!feof($ar)){
+            $lineas = fgets($ar);
+            $lineasalto = nl2br($lineas);
+            echo $lineasalto;
+        }
+        fclose($ar);
     ?>
 
 </body>

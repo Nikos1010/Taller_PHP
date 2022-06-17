@@ -8,7 +8,10 @@
 </head>
 <body>
     <a href="#">Home</a>
-    <a href="./ejerciciosTallerUno.php">Ejercicios</a>
+    <a href="./ejerciciosTallerUno.php">Ejercicios T1</a>
+    <a href="./ejerciciosTallerDos.php">Ejercicios T2</a>
+    <a href="./ejerciciosTallerTres.php">Ejercicios T3</a>
+    <a href="./captura.php">Captura</a>
     <?php 
         $dia = date("d");
         echo "<br>";
@@ -157,5 +160,46 @@
         <br>
         <input type="submit" value="Registrar">
     </form>
+    <h4>VECTORES ASOCIATIVOS</h4>
+    <?php 
+        $registro['dni'] = "20456322";
+        $registro['nombre'] = "Martinez Pablo";
+        $registro['direccion'] = "Colon 134";
+        echo $registro['nombre'];
+        echo "<br>";
+
+        $registro2 = array('dni' => '20456322',
+                            'nombre' => 'Martinez Pablo',
+                            'direccion' => 'Colon 134');
+        echo $registro2['dni'];
+    ?>
+    <h4>FUNCIONES EN PHP</h4>
+    <?php 
+        function mostrarticulo($men){
+            echo "<h1 style=\"text-align:center\">";
+            echo $men;
+            echo "</h1>";
+        }
+        mostrarticulo("Primer Titulo");
+        echo "<br>";
+        mostrarticulo("Segundo Titulo");
+
+        function retornarpromedio($valor1, $valor2){
+            $pro = $valor1/$valor2;
+            return $pro;
+        }
+        $v1 = 100;
+        $v2 = 50;
+        $p = retornarpromedio($v1, $v2);
+        echo $p."<br>";
+
+        function cuadradocubo($valor,&$cuad,&$cub){
+            $cuad = $valor*$valor;
+            $cub = $valor*$valor*$valor;
+        }
+        cuadradocubo(2,$c1,$c2);
+        echo "El cuadrado de 2 es: $c1<br>";
+        echo "El cubo de 2 es: $c2";
+    ?>
 </body>
 </html>
