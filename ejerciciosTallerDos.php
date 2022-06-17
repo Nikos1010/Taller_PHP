@@ -13,102 +13,115 @@
     <a href="./ejerciciosTallerTres.php">Ejercicios T3</a>
     <a href="./capturaDos.php">Pizza</a>
     <br>
-    <h3>Ejercicio Punto 3</h3>
-    <?php 
-        echo "Hola Mundo";
-    ?>
-    <br>
-    <?php 
-        echo "Soy Nicolas";
-    ?>
-    <br>
-    <?php 
-        echo "Que hay de nuevo en una vida";
-    ?>
-    <h3>Ejercicio Punto 4</h3>
-    <?php 
-        $num = rand(1, 100);
-        if($num <= 50) {
-            echo $num, ": Es menor o igual que 50";
-        } else {
-            echo $num, ": Es mayor que 50";
-        }
-    ?>
-    <h3>Ejercicio Punto 5</h3>
-    <?php 
-        $dia = 24;
-        $sueldo = 758.43;
-        $nombre = "Juan";
-        $existe = true;
-        echo "Variable entera: ", $dia;
-        echo "<br>";
-        echo "Variable double: ", $sueldo;
-        echo "<br>";
-        echo "Variable string: ", $nombre;
-        echo "<br>";
-        echo "Variable boolean: ", $existe;
-    ?>
-    <h3>Ejercicio Punto 6</h3>
-    <?php 
-        $cantidad = 5;
-        $precio = 25;
-        $iva = 20;
-        echo "Hay $cantidad audifonos a un precio de $precio dolares, y el iva es del $iva %";
-    ?>
-    <h3>Ejercicio Punto 7</h3>
-    <?php 
-        $valor = rand(1, 3);
-        if($valor == 1) {
-            echo "Uno";
-        }else if($valor == 2){
-            echo "Dos";
-        } else {
-            echo "Tres";
-        }
-    ?>
-    <h3>Ejercicio Punto 8</h3>
-    <?php 
-        echo "CICLO FOR<br>";
-        for ($f=2; $f<=20; $f=$f+2){
-            echo " $f -";
-        }
-        echo "<br>";
-        echo "CICLO WHILE<br>";
-        $inicio = 2;
-        while($inicio <= 20) {
-            echo " $inicio -";
-            $inicio = $inicio+2;
-        }
-        echo "<br>";
-        echo "CICLO DO-WHILE<br>";
-        $inicio = 2;
-        do {
-            echo " $inicio -";
-            $inicio = $inicio+2;
-        } while($inicio <= 20);
-    ?>
-    <h3>Ejercicio Punto 9</h3>
-    <form method="post" action="capturaDos.php">
+    <h3>Ejercicio Punto 18</h3>
+    <form method="post" action="ejerciciosTallerDos.php">
         <label>Ingrese su nombre:</label>
         <input type="text" name="nombre">
         <br>
-        <label>Ingrese su edad:</label>
-        <input type="number" name="edad">
+        <label>Ingrese su clave:</label>
+        <input type="password" name="password1">
         <br>
-        <input type="submit" value="confirmar">
+        <label>Repita su clave:</label>
+        <input type="password" name="password2">
+        <br>
+        <input type="submit" value="Verificar">
     </form>
-    <h3>Ejercicio Punto 10</h3>
-    <form method="post" action="capturaDos.php">
-        <label>Ingrese su nombre:</label>
-        <input type="text" name="nombre2">
+    <?php 
+        if(isset($_REQUEST['nombre']) && isset($_REQUEST['password1']) && isset($_REQUEST['password2'])){
+            function claveDistinta($clave1, $clave2){
+                $distinto = $clave1 != $clave2;
+                $p = '';
+                if($distinto){
+                    $p = "Las claves son distintas";
+                } else {
+                    $p = "Las claves son iguales";
+                }
+                return $p;
+            }
+            $respuesta = claveDistinta($_REQUEST['password1'], $_REQUEST['password2']);
+            echo "<br>$respuesta";
+        }
+
+    ?>
+    <h3>Ejercicio Punto 20</h3>
+    <h4>Alta de Cursos</h4>
+    <form action="capturaTallerDos.php" method="POST">
+        Ingrese nombre del curso:
+        <input type="text" name="nombrecurso">
+        <input type="hidden" name="create" value="true">
         <br>
-        <input type="radio" name="radio1" value="noEstudio">No Tiene Estudios
-        <br>
-        <input type="radio" name="radio1" value="primario">Estudios Primarios
-        <br>
-        <input type="radio" name="radio1" value="secundario">Estudios Secundarios
-        <br>
-        <input type="submit">
+        <input type="submit" value="Registrar">
+    </form>
+    <h3>Ejercicio Punto 21</h3>
+    <?php 
+        $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+        or die("Problemas con la conexión.");
+
+        $cursos = mysqli_query($conexion, "select codigo,nombrecurso from cursos")
+        or die("Problemas en el select: ".mysqli_error($conexion));
+
+        while($reg = mysqli_fetch_array($cursos)){
+            echo "Codigo: ".$reg['codigo']."<br>";
+            echo "Nombre del curso: ".$reg['nombrecurso']."<br>";
+            echo "<hr>";
+        }
+        mysqli_close($conexion);
+    ?>
+    <h3>Ejercicio Punto 22</h3>
+    <form action="capturaTallerDos.php" method="POST">
+        Ingrese el nombre del alumno:
+        <input type="text" name="nombre"><br>
+        <input type="hidden" name="search" value="true">
+        <input type="submit" value="Buscar">
+    </form>
+    <h3>Ejercicio Punto 23</h3>
+    <?php 
+        $eliminar = false;
+        if($eliminar){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            mysqli_query($conexion, "delete from cursos")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            echo "Se efectuo el borrado de todos los cursos.";
+            mysqli_close($conexion);
+        } else {
+            echo "Esperando a borrado total.";
+        }
+    ?>
+    <h3>Ejercicio Punto 25</h3>
+    <form action="capturaTallerDos.php" method="POST">
+        Ingrese el nombre del curso:
+        <input type="text" name="nombrecurso"><br>
+        <input type="hidden" name="update" value="true">
+        <input type="submit" value="Buscar">
+    </form>
+    <h3>Ejercicio Punto 26</h3>
+    <form action="capturaTallerDos.php" method="POST">
+        Ingrese nombre:
+        <input type="text" name="nombre"><br>
+        Ingrese mail:
+        <input type="text" name="mail"><br>
+        Seleccione el curso: <br>
+        <?php 
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            $registros = mysqli_query($conexion, "select codigo, nombrecurso from cursos")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            while($reg = mysqli_fetch_array($registros)){
+                echo "<input type='radio' name='codigocurso' value=\"$reg[codigo]\">$reg[nombrecurso] <br>";
+            }
+        ?>
+        <input type="hidden" name="consulta" value="true">
+        <input type="submit" value="Registrar">
+    </form>
+    <h3>Ejercicio Punto 27</h3>
+    <form action="capturaTallerDos.php" method="POST">
+        Ingrese el codigo del alumno:
+        <input type="number" name="codigo"><br>
+        <input type="hidden" name="informe" value="true">
+        <input type="submit" value="Registrar">
     </form>
     <h3>Ejercicio Punto 11</h3>
     <form method="post" action="capturaDos.php">

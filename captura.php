@@ -53,6 +53,43 @@
             echo $lineasalto;
         }
         fclose($ar);
+        echo "<br>";
+        
+        //Base de datos
+        if(isset($_REQUEST['nombre']) && isset($_REQUEST['mail']) && isset($_REQUEST['codigocurso'])){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1") or die("Problemas con la conexión");
+            mysqli_query($conexion,"insert into alumnos(nombre,mail,codigocurso)
+            values('$_REQUEST[nombre]','$_REQUEST[mail]',$_REQUEST[codigocurso])") or 
+            die("Problemas en el select".mysqli_error($conexion));
+
+            mysqli_close($conexion);
+            echo "El alumno fue dado de alta.";
+        }
+
+        //Consulta
+        if(isset($_REQUEST['mail'])){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión");
+
+            $registros = mysqli_query($conexion, "select codigo, nombre, codigocurso from alumnos
+            where mail = '$_REQUEST[mail]'") or die("Problemas en el select: ".mysqli_error($conexion));
+
+            if($reg = mysqli_fetch_array($registros)) {
+                echo "Nombre: ".$reg['nombre']."<br>";
+                echo "Curso: ";
+                switch ($reg['codigocurso']){
+                    case 1: echo "PHP";
+                            break;
+                    case 2: echo "ASP";
+                            break;
+                    case 3: echo "JSP";
+                            break;
+                }
+            } else {
+                echo "No existe un alumno con ese mail.";
+            }
+            mysqli_close($conexion);
+        }
     ?>
 </body>
 </html>

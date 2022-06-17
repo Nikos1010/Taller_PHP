@@ -201,5 +201,131 @@
         echo "El cuadrado de 2 es: $c1<br>";
         echo "El cubo de 2 es: $c2";
     ?>
+    <h4>BASE DE DATOS</h4>
+    <h1>Alta de Alumnos</h1>
+    <form action="captura.php" method="POST">
+        Ingrese nombre:
+        <input type="text" name="nombre"><br>
+        Ingrese mail:
+        <input type="text" name="mail"><br>
+        Seleccione el curso:
+        <select name="codigocurso">
+            <option value="1">PHP</option>
+            <option value="2">ASP</option>
+            <option value="3">JSP</option>
+        </select>
+        <br>
+        <input type="submit" value="Registrar">
+    </form>
+    <h4>LISTADO</h4>
+    <?php 
+        $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+        or die("problemas con la conexión.");
+
+        $registros = mysqli_query($conexion, 
+        "select codigo, nombre, mail, codigocurso from alumnos")
+        or die("Problemas en el select: ".mysqli_error($conexion));
+
+        while($reg = mysqli_fetch_array($registros)){
+            echo "Codigo: ".$reg['codigo']."<br>";
+            echo "Nombre: ".$reg['nombre']."<br>";
+            echo "E-Mail: ".$reg['mail']."<br>";
+            echo "Curso: ";
+            switch ($reg['codigocurso']){
+                case 1: echo "PHP";
+                        break;
+                case 2: echo "ASP";
+                        break;
+                case 3: echo "JSP";
+                        break;
+                case 4: echo "PHP";
+                        break;
+                case 5: echo "ASP";
+                        break;
+                case 6: echo "JSP";
+                        break;
+                case 7: echo "JS";
+                        break;
+            }
+            echo "<br>";
+            echo "<hr>";
+        }
+        mysqli_close($conexion);
+    ?>
+    <h4>CONSULTA</h4>
+    <form action="captura.php" method="POST">
+        Ingrese el mail del alumno a consultar:
+        <input type="text" name="mail"><br>
+        <input type="submit" value="Buscar">
+    </form>
+    <h4>DELETE UN REGISTRO</h4>
+    <form action="captura2.php" method="POST">
+        Ingrese el mail del alumno a borrar:
+        <input type="text" name="mail"><br>
+        <input type="hidden" name="delete" value="true">
+        <input type="submit" value="Buscar">
+    </form>
+    <h4>DELETE TODOS LOS REGISTROS</h4>
+    <?php 
+        $eliminar = false;
+        if($eliminar){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            mysqli_query($conexion, "delete from alumnos")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            echo "Se efectuo el borrado de todos los alumnos.";
+            mysqli_close($conexion);
+        } else {
+            echo "Esperando a borrado total.";
+        }
+    ?>
+    <h4>UPDATE UN REGISTRO</h4>
+    <form action="captura2.php" method="POST">
+        Ingrese el mail del alumno:
+        <input type="text" name="mail"><br>
+        <input type="hidden" name="update" value="true">
+        <input type="submit" value="Buscar">
+    </form>
+    <h4>INSERT Y CONSULTA DE OTRA TABLA</h4>
+    <form action="captura2.php" method="POST">
+        Ingrese nombre:
+        <input type="text" name="nombre"><br>
+        Ingrese mail:
+        <input type="text" name="mail"><br>
+        Seleccione el curso:
+        <select name="codigocurso">
+        <?php 
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            $registros = mysqli_query($conexion, "select codigo, nombrecurso from cursos")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            while($reg = mysqli_fetch_array($registros)){
+                echo "<option value=\"$reg[codigo]\">$reg[nombrecurso]</option>";
+            }
+        ?>
+        </select><br>
+        <input type="hidden" name="consulta" value="true">
+        <input type="submit" value="Registrar">
+    </form>
+    <h4>LISTADO VARIAS TABLAS</h4>
+    <?php 
+        $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+        or die("Problemas con la conexión.");
+
+        $registros = mysqli_query($conexion, "select alu.codigo as codigo, nombre, mail,
+                                    codigocurso, nombrecurso from alumnos as alu 
+                                    inner join cursos as cur on cur.codigo = alu.codigocurso")
+                    or die("Problemas en el select: ".mysqli_error($conexion));
+        while($reg = mysqli_fetch_array($registros)){
+            echo "Codigo: ".$reg['codigo']."<br>";
+            echo "Nombre: ".$reg['nombre']."<br>";
+            echo "E-Mail: ".$reg['mail']."<br>";
+            echo "Curso: ".$reg['nombrecurso']."<br>";
+            echo "<hr>";
+        }
+        mysqli_close($conexion);
+    ?>
 </body>
 </html>
