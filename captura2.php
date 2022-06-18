@@ -71,6 +71,67 @@
             mysqli_close($conexion);
             echo "El alumno fue dado de alta";
         }
+
+        //Update 2 tablas
+        if(isset($_REQUEST['mail']) && isset($_REQUEST['modificar'])){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            $registros = mysqli_query($conexion, "select * from alumnos where mail = '$_REQUEST[mail]'")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            if($regalu = mysqli_fetch_array($registros)){
+    ?>
+            <form action="captura2.php" method="POST">
+                <input type="hidden" name="mailviejo" value="<?php echo $regalu['mail']; ?>">
+                <select name="codigocurso">
+                    <?php 
+                        $registros = mysqli_query($conexion, "select * from cursos") 
+                        or die("Problemas en el select: ".mysqli_error($conexion));
+
+                        while($regcur = mysqli_fetch_array($registros)){
+                            if($regalu['codigocurso'] == $regcur['codigo']){
+                                echo "<option value=\"$regcur[codigo]\" selected>$regcur[nombrecurso]</option>";
+                            } else {
+                                echo "<option value=\"$regcur[codigo]\">$regcur[nombrecurso]</option>";
+                            }
+                        }
+                    ?>
+                </select><br>
+                <input type="submit" value="Modificar">
+            </form>
+    <?php
+            } else {
+                echo "No existe alumno con dicho mail.";
+            }
+        }
+
+        //Segunda parte Update dos tablas
+        if(isset($_REQUEST['mailviejo']) && isset($_REQUEST['codigocurso'])){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            $registros = mysqli_query($conexion, "update alumnos set codigocurso = $_REQUEST[codigocurso] where mail = '$_REQUEST[mailviejo]'")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            
+            echo "El curso fue modificado con exito.";
+        }
+
+        //Parametros por vinculos
+        if(isset($_REQUEST['tabla'])){
+            echo "Listado de la tabla del $_REQUEST[tabla] <br>";
+            for($f = 1; $f <= 10; $f++){
+                $valor = $f * $_REQUEST['tabla'];
+                echo $valor."-";
+            }
+        }
+
+        //Subir un archivo
+        if(isset($_REQUEST['subir'])){
+            copy($_FILES['foto']['tmp_name'], $_FILES['foto']['name']);
+            echo "La foto se registro en el servidor.<br>";
+            $nom = $_FILES['foto']['name'];
+            echo "<img src=\"$nom\" width='200px' heigh='200px'>";
+        }
     ?>
 </body>
 </html>

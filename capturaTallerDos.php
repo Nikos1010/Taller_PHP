@@ -114,6 +114,96 @@
             }
             mysqli_close($conexion);
         }
+        
+        //Ejercicio 29
+        if(isset($_REQUEST['codigo']) && isset($_REQUEST['busqueda'])){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+            
+            $registros = mysqli_query($conexion, "select * from alumnos where codigo = $_REQUEST[codigo]")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            
+            if($regalu = mysqli_fetch_array($registros)){
+    ?>
+            <form action="capturaTallerDos.php" method="POST">
+                <input type="hidden" name="codigoalumno" value="<?php echo $regalu['codigo']; ?>">
+                Mail:
+                <input type="text" name="mail" value="<?php echo $regalu['mail']; ?>"><br>
+                Nombre:
+                <input type="text" name="nombre" value="<?php echo $regalu['nombre']; ?>"><br>
+                <select name="codigocurso">
+                    <?php 
+                        $registros = mysqli_query($conexion, "select * from cursos") 
+                        or die("Problemas en el select: ".mysqli_error($conexion));
+
+                        while($regcur = mysqli_fetch_array($registros)){
+                            if($regalu['codigocurso'] == $regcur['codigo']){
+                                echo "<option value=\"$regcur[codigo]\" selected>$regcur[nombrecurso]</option>";
+                            } else {
+                                echo "<option value=\"$regcur[codigo]\">$regcur[nombrecurso]</option>";
+                            }
+                        }
+                    ?>
+                </select><br>
+                <input type="submit" value="Modificar">
+            </form>
+    <?php
+            } else {
+                echo "No existe el codigo de alumno ingresado.";
+            }
+            mysqli_close($conexion);
+        }
+
+        if(isset($_REQUEST['codigoalumno']) && isset($_REQUEST['mail']) && isset($_REQUEST['nombre']) && isset($_REQUEST['codigocurso'])){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            mysqli_query($conexion, "update alumnos set nombre = '$_REQUEST[nombre]',
+                                    mail = '$_REQUEST[mail]', codigocurso = $_REQUEST[codigocurso]
+                                    where codigo = $_REQUEST[codigoalumno]") 
+            or die("Problema en el select: ".mysqli_error($conexion));
+
+            echo "Los datos fueron modificados con exito.";
+            mysqli_close($conexion);
+        }
+
+        //Ejercicio 31
+         if(isset($_REQUEST['codigo']) && isset($_REQUEST['pag'])){
+            $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+            or die("Problemas con la conexión.");
+
+            
+            $registros = mysqli_query($conexion, "select nombrecurso from cursos where codigo = $_REQUEST[codigo]")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            
+            if($cur = mysqli_fetch_array($registros)){
+                $registros = mysqli_query($conexion, "select nombre, mail from alumnos where codigocurso = $_REQUEST[codigo]")
+                or die("Problemas en el select: ".mysqli_error($conexion));
+                echo "Nombre curso: ".$cur['nombrecurso']."<br>";
+                echo "Alumnos inscritos: <br><hr>";
+                while ($reg = mysqli_fetch_array($registros)) {
+                    echo "  - Nombre: ".$reg['nombre']."<br>";
+                    echo "  - E-Mail: ".$reg['mail']."<br><hr>";
+                }
+            } else {
+                echo "No se encontro el curso .-.";
+            }
+            mysqli_close($conexion);
+        }
+
+        //Ejercicio 33
+        if(isset($_REQUEST['subirarchivos'])){
+            copy($_FILES['foto1']['tmp_name'], $_FILES['foto1']['name']);
+            copy($_FILES['foto2']['tmp_name'], $_FILES['foto2']['name']);
+            copy($_FILES['foto3']['tmp_name'], $_FILES['foto3']['name']);
+            echo "Las fotos se registraron en el servidor.<br>";
+            $nom1 = $_FILES['foto1']['name'];
+            $nom2 = $_FILES['foto2']['name'];
+            $nom3 = $_FILES['foto3']['name'];
+            echo "<img src=\"$nom1\" width='200px' heigh='200px'><br>";
+            echo "<img src=\"$nom2\" width='200px' heigh='200px'><br>";
+            echo "<img src=\"$nom3\" width='200px' heigh='200px'><br>";
+        }
     ?>
 
 </body>

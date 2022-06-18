@@ -11,7 +11,6 @@
     <a href="./ejerciciosTallerUno.php">Ejercicios T1</a>
     <a href="./ejerciciosTallerDos.php">Ejercicios T2</a>
     <a href="./ejerciciosTallerTres.php">Ejercicios T3</a>
-    <a href="./capturaDos.php">Pizza</a>
     <br>
     <h3>Ejercicio Punto 18</h3>
     <form method="post" action="ejerciciosTallerDos.php">
@@ -123,73 +122,77 @@
         <input type="hidden" name="informe" value="true">
         <input type="submit" value="Registrar">
     </form>
-    <h3>Ejercicio Punto 11</h3>
-    <form method="post" action="capturaDos.php">
-        <label>Ingrese su nombre:</label>
-        <input type="text" name="nombre">
-        <br>
-        <input type="checkbox" name="check1">Futbol
-        <br>
-        <input type="checkbox" name="check2">Basket
-        <br>
-        <input type="checkbox" name="check3">Tennis
-        <br>
-        <input type="checkbox" name="check4">Voley
-        <br>
-        <input type="submit">
-    </form>
-    <h3>Ejercicio Punto 13</h3>
-    <form method="POST" action="capturaDos.php">
-        <textarea name="contrato" cols="30" rows="10">
-            En la ciudad de [.....], se acuerda entre la Empresa [......]
-            representada por el SR. [.........] en su carácter de Apoderado,
-            con domicilio en la calle [..........] y el SR. [.............],
-            futuro empleado con domicilio en [..........], celebrar el presente
-            contrato a Plazo Fijo, de acuerdo a la normativa vigente de los
-            artículos 90,92,93,94,95 y concordante de la Ley de Contrato de Trabajo
-            N° 20.744.
-        </textarea>
-        <br>
-        <input type="submit">
-    </form>
-    <h3>Ejercicio Punto 14</h3>
+    <h3>Ejercicio Punto 28</h3>
     <?php 
-        $diasSemana = array("Lunes", "Martes", "Miercoles", "Jueves", "viernes", "Sabado", "Domingo");
-        echo "$diasSemana[0] y ".$diasSemana[count($diasSemana)-1];
+        $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+        or die("Problemas con la conexión.");
+
+        $cursos = mysqli_query($conexion, "select nombrecurso from cursos")
+        or die("Problemas en el select: ".mysqli_error($conexion));
+
+        $registros = mysqli_query($conexion, "select count(codigo) as cantidad from cursos")
+        or die("Problemas en el select: ".mysqli_error($conexion));
+
+        $reg = mysqli_fetch_array($registros);
+        echo "La cantidad de cursos son: $reg[cantidad]<br>";
+        
+        while($cur = mysqli_fetch_array($cursos)){
+            echo "$cur[nombrecurso] ";
+        }
     ?>
-    <h3>Ejercicio Punto 15</h3>
-    <form method="POST" action="capturaDos.php">
-        <label>Nombre: </label>
-        <input type="text" name="nombre2">
-        <br>
-        <label>Dirección: </label>
-        <input type="text" name="direccion">
-        <br>
-        <input type="checkbox" name="checkUno">Jamon y Queso
-        <br>
-        <label>Cantidad: </label>
-        <input type="text" name="cantidad1">
-        <br>
-        <input type="checkbox" name="checkDos">Napolitana
-        <br>
-        <label>Cantidad: </label>
-        <input type="text" name="cantidad2">
-        <br>
-        <input type="checkbox" name="checkTres">Muzzarella
-        <br>
-        <label>Cantidad: </label>
-        <input type="text" name="cantidad3">
-        <br>
-        <input type="submit" value="Confirmar">
+    <h3>Ejercicio Punto 29</h3>
+    <form action="capturaTallerDos.php" method="POST">
+        Ingrese el codigo del alumno:
+        <input type="number" name="codigo"><br>
+        <input type="hidden" name="busqueda" value="true">
+        <input type="submit" value="Registrar">
     </form>
-    <h3>Ejercicio Punto 17</h3>
+    <h3>Ejercicio Punto 30</h3>
     <?php 
-        $clave = array('jey' => 'cnvjadncaiocnsd',
-                        'antonio' => 'cnjancjiacf1541',
-                        'uver' => 'mcdakmncoancia7484_/',
-                        'camila' => '515*-_csmaic_9u',
-                        'laura' => '__nscjans/*csac23');
-        echo "Clave de Laura: ".$clave['laura'];
+        $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+        or die("Problemas con la conexión.");
+
+        $registros = mysqli_query($conexion, "select count(alu.codigo) as cantidad, nombrecurso, codigocurso 
+                                    from alumnos as alu inner join cursos as cur 
+                                    on cur.codigo = alu.codigocurso group by alu.codigocurso")
+        or die("Problemas en el select: ".mysqli_error($conexion));
+        
+        while($reg = mysqli_fetch_array($registros)){
+            echo "Nombre del curso: ".$reg['nombrecurso']."<br>";
+            echo "Cantidad de inscritos: ".$reg['cantidad']."<br>";
+            echo "Nombres: ";
+            $count = 1;
+            $alumnos = mysqli_query($conexion, "select nombre from alumnos where codigocurso = $reg[codigocurso]")
+            or die("Problemas en el select: ".mysqli_error($conexion));
+            while($regalu = mysqli_fetch_array($alumnos)){
+                if($count < $reg['cantidad']) {
+                    echo "$regalu[nombre] - ";
+                    $count++;
+                } else {
+                    echo "$regalu[nombre]";
+                }
+            }
+            echo "<hr>";
+        }
+        mysqli_close($conexion);
     ?>
+    <h3>Ejercicio Punto 31</h3>
+    <div>
+        <a href="capturaTallerDos.php?codigo=4&pag=true">PHP</a><br>
+        <a href="capturaTallerDos.php?codigo=5&pag=true">ASP</a><br>
+        <a href="capturaTallerDos.php?codigo=6&pag=true">JSP</a><br>
+        <a href="capturaTallerDos.php?codigo=7&pag=true">JS</a>
+    </div>
+    <h3>Ejercicio Punto 32</h3>
+    <a href="./paginacionTallerDos.php">Ejercicio Paginación</a>
+    <h3>Ejercicio Punto 33</h3>
+    <form action="capturaTallerDos.php" method="POST" enctype="multipart/form-data">
+        Seleccione el archivo:
+        <input type="file" name="foto1"><br>
+        <input type="file" name="foto2"><br>
+        <input type="file" name="foto3"><br>
+        <input type="hidden" name="subirarchivos">
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>

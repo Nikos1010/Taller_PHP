@@ -12,6 +12,7 @@
     <a href="./ejerciciosTallerDos.php">Ejercicios T2</a>
     <a href="./ejerciciosTallerTres.php">Ejercicios T3</a>
     <a href="./captura.php">Captura</a>
+    <a href="./paginacion.php">Paginacion</a>
     <?php 
         $dia = date("d");
         echo "<br>";
@@ -327,5 +328,62 @@
         }
         mysqli_close($conexion);
     ?>
+    <h4>FUNCION COUNT</h4>
+    <?php 
+        $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+        or die("Problemas con la conexión.");
+
+        $registros = mysqli_query($conexion, "select count(*) as cantidad from alumnos")
+        or die("Problemas en el select: ".mysqli_error($conexion));
+
+        $reg = mysqli_fetch_array($registros);
+        echo "La cantidad de alumnos inscritos son: ".$reg['cantidad']."<br>";
+    ?>
+    <h4>UPDATE UN REGISTRO TRABAJANDO CON DOS</h4>
+    <form action="captura2.php">
+        Ingrese el mail del alumno:
+        <input type="text" name="mail"><br>
+        <input type="hidden" name="modificar">
+        <input type="submit" value="Buscar">
+    </form>
+    <h4>CLÁUSULA GROUP BY</h4>
+    <?php 
+        $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+        or die("Problemas con la conexión.");
+
+        $registros = mysqli_query($conexion, "select count(alu.codigo) as cantidad, nombrecurso 
+                                    from alumnos as alu inner join cursos as cur 
+                                    on cur.codigo = alu.codigocurso group by alu.codigocurso")
+        or die("Problemas en el select: ".mysqli_error($conexion));
+
+        while($reg = mysqli_fetch_array($registros)){
+            echo "Nombre del curso: ".$reg['nombrecurso']."<br>";
+            echo "Cantidad de inscritos: ".$reg['cantidad']."<br><hr>";
+        }
+        mysqli_close($conexion);
+    ?>
+    <h4>PARAMETROS EN UN HIPERVINCULO</h4>
+    <div>
+        <a href="captura2.php?tabla=2">Tabla 2</a><br>
+        <a href="captura2.php?tabla=3">Tabla 3</a><br>
+        <a href="captura2.php?tabla=5">Tabla 5</a>
+    </div>
+    <h4>PAGINACIÓN DE REGISTROS</h4>
+    <div>
+        <?php 
+            if(isset($_REQUEST['pos'])){
+                $inicio = $_REQUES['pos'];
+            } else{
+                $inicio = 0;
+            }
+        ?>
+    </div>
+    <h4>SUBIR UN ARCHIVO</h4>
+    <form action="captura2.php" method="POST" enctype="multipart/form-data">
+        Seleccione el archivo:
+        <input type="file" name="foto"><br>
+        <input type="hidden" name="subir">
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>
