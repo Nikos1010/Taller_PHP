@@ -385,5 +385,138 @@
         <input type="hidden" name="subir">
         <input type="submit" value="Enviar">
     </form>
+    <h4>COOKIE</h4>
+    <?php 
+        if(isset($_COOKIE['color'])) echo "<div style=\"background: $_COOKIE[color]\" >"
+    ?>
+    <form action="captura2.php" method="POST">
+        Seleccione de que color desea que sea la página de ahora en más:<br>
+        <input type="radio" value="rojo" name="radio34">Rojo<br>
+        <input type="radio" value="verde" name="radio34">Verde<br>
+        <input type="radio" value="azul" name="radio34">Azul<br>
+        <input type="submit" value="Crear cookie">
+    </form>
+    <?php echo "</div>" ?>
+    <h4>BORRADO DE COOKIE</h4>
+    <form action="captura2.php" method="POST">
+        Ingrese su mail:
+        <input type="text" name="mailusuario" value="<?php if(isset($_COOKIE['mail'])) echo $_COOKIE['mail']; ?>"><br>
+        <input type="radio" value="recordar" name="opcion">Recordar el mail ingresado.<br>
+        <input type="radio" value="norecordar" name="opcion">No recordar.<br>
+        <input type="submit" value="Confirmar">
+    </form>
+    <h4>COOKIE DE SESIÓN</h4>
+    <?php 
+        if(isset($_COOKIE['usu'])){
+            echo "Cookie de sesión creada. su valor es $_COOKIE[usu]";
+        } else {
+            echo "No existe cookie de sesión.";
+        }
+    ?>
+    <br>
+    <a href="captura2.php?cook=true">Crear cookie de sesión</a>
+    <h4>VARIABLES DE SESIÓN</h4>
+    <form action="captura2.php" method="POST">
+        Ingrese nombre de usuario:
+        <input type="text" name="campousuario"><br>
+        Ingrese clave:
+        <input type="password" name="campoclave"><br>
+        <input type="submit" value="confirmar">
+    </form>
+    <h4>INCLUIR ARCHIVO EXTERNO</h4>
+    <?php 
+        require_once("captura2.php");
+        cabeceraPagina("Titulo principal de la página");
+        echo "<br><br><center>Este es el cuerpo de la página<br><br></center>";
+        piePagina("Pie de la página");
+    ?>
+    <h4>REDIRECCIONAR</h4>
+    <form action="captura2.php?redir=true" method="POST">
+        Ingrese dirección de sitio web (ej: www.google.com):
+        <input type="text" name="direccion" size="30"><br>
+        <input type="submit" value="Redireccionar">
+    </form>
+    <h4>IMAGENES DINAMICAS</h4>
+    <a href="./imagen.php">Ir a Imagen</a>
+    <h4>IMAGENES DINAMICAS EN HTML</h4>
+    <form action="captura2.php" method="POST">
+        Digitos verificadores: <img src="imagen.php"><br>
+        Ingrese valor:
+        <input type="text" name="numero"><br>
+        <input type="submit" value="Verificar">
+    </form>
+    <h4>ADMINISTRACION DE FECHAS Y HORAS</h4>
+    <?php 
+        $fecha = date("d/m/y");
+        $hora = date("h:i:s");
+        echo "La fecha de hoy es: $fecha<br>";
+        echo "La hora actual es: $hora<br>";
+    ?>
+    <a href="captura2.php?problema=1">Siguiente Problema</a>
+    <h4>VALIDACION DE UNA FECHA</h4>
+    <form action="captura2.php" method="POST">
+        Ingrese una fecha (dd/mm/aaaa):
+        <input type="text" name="dia" size="2">
+        <input type="text" name="mes" size="2">
+        <input type="text" name="anio" size="4"><br>
+        <input type="hidden" value="validacion">
+        <input type="submit" value="Validar">
+    </form>
+    <h4>CARGA UNA FECHA A MYSQL</h4>
+    <form action="captura2.php" method="POST">
+        Ingrese nombre:
+        <input type="text" name="nombre"><br>
+        Ingrese mail:
+        <input type="text" name="mail"><br>
+        Ingrese la fecha de nacimiento (dd/mm/aaaa):
+        <input type="text" name="dia" size="2">
+        <input type="text" name="mes" size="2">
+        <input type="text" name="anio" size="4"><br>
+        Seleccione el curso:
+        <select name="codigocurso">
+            <?php 
+                $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+                or die("Problemas con la conexión.");
+
+                $registros = mysqli_query($conexion, "select codigo,nombrecurso from cursos")
+                or die("Problemas en el select: ".mysqli_error($conexion));
+                
+                while($reg = mysqli_fetch_array($registros)){
+                    echo "<option value=\"$reg[codigo]\">$reg[nombrecurso]</option>";
+                }
+            ?>
+        </select><br>
+        <input type="submit" value="Registrar">
+    </form>
+    <a href='captura2.php?listadoalu=1'>Ver listado alumnos</a>
+    <h4>FORMATEO DE DATOS (printf)</h4>
+    <?php 
+        $entero = 255;
+        printf("Valor entero en formato decimal %d <br>", $entero);
+        printf("Valor entero en formato hexadecimal con letras minúsculas %x <br>", $entero);
+        printf("Valor entero en formato hexadecimal con letras mayúsculas %X <br>", $entero);
+        printf("Valor entero en formato binario %b <br>", $entero);
+        printf("Valor entero en formato octal %o <br>", $entero);
+        $letra = 65;
+        printf("Valor entero como caracter ascii %c <br>", $letra);
+        $real = 10.776;
+        printf("Impresion de un valor de tipo double %f <br>", $real);
+        printf("Impresion de un valor de tipo double indicando la cantidad de decimales a imprimir %0.2f <br>", $real);
+    ?>
+    <a href="captura2.php?formato=1">Algunas utilidades de estas conversiones</a>
+    <h4>FORMATO DE DATOS Y SALIDA A UN STRING (sprintf)</h4>
+    <?php 
+        function retornarColorHexa($rojo,$verde,$azul){
+            $color = sprintf("#%02X%02X%02X", $rojo,$verde,$azul);
+            return $color;
+        }
+    ?>
+    <table>
+        <tr>
+            <td style="background: <?php echo retornarColorHexa(255,0,0)?>">Cuadro Rojo</td>
+            <td style="background: <?php echo retornarColorHexa(0,255,0)?>">Cuadro Verde</td>
+            <td style="background: <?php echo retornarColorHexa(0,0,255)?>">Cuadro Azul</td>
+        </tr>
+    </table>
 </body>
 </html>

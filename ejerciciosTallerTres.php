@@ -11,172 +11,185 @@
     <a href="./ejerciciosTallerUno.php">Ejercicios T1</a>
     <a href="./ejerciciosTallerDos.php">Ejercicios T2</a>
     <a href="./ejerciciosTallerTres.php">Ejercicios T3</a>
-    <a href="./capturaDos.php">Pizza</a>
     <br>
-    <h3>Ejercicio Punto 3</h3>
-    <?php 
-        echo "Hola Mundo";
-    ?>
-    <br>
-    <?php 
-        echo "Soy Nicolas";
-    ?>
+    <h3>Ejercicio Punto 34</h3>
+    <form action="capturaTallerTres.php" method="POST">
+        Nombre usuario:
+        <input type="text" name="nomUsuario"><br>
+        <input type="submit" value="Crear cookie">
+    </form>
     <br>
     <?php 
-        echo "Que hay de nuevo en una vida";
-    ?>
-    <h3>Ejercicio Punto 4</h3>
-    <?php 
-        $num = rand(1, 100);
-        if($num <= 50) {
-            echo $num, ": Es menor o igual que 50";
-        } else {
-            echo $num, ": Es mayor que 50";
+        if(isset($_COOKIE['usuario'])){
+            echo $_COOKIE['usuario'];
         }
     ?>
-    <h3>Ejercicio Punto 5</h3>
+    <h3>Ejercicio Punto 35</h3>
+    <div>
+        <?php 
+            if(isset($_COOKIE['titular'])){
+                if($_COOKIE['titular'] == "notipolitica"){
+                    echo "<p> Noticia Política </p>";
+                } else if($_COOKIE['titular'] == "notieconomica"){
+                    echo "<p> Noticia Económica </p>";
+                } else if($_COOKIE['titular'] == "notideportiva"){
+                    echo "<p> Noticia Deportiva </p>";
+                }
+            } else {
+                echo "<p> Noticia Política </p>";
+                echo "<p> Noticia Económica </p>";
+                echo "<p> Noticia Deportiva </p>";
+            }
+        ?>
+    </div>
+    <form action="capturaTallerTres.php" method="POST">
+        <input type="radio" name="noticia" value="notipolitica">Noticia Política<br>
+        <input type="radio" name="noticia" value="notieconomica">Noticia Económica<br>
+        <input type="radio" name="noticia" value="notideportiva">Noticia Deportiva<br>
+        <input type="radio" name="opcion" value="recordar">Recordar<br>
+        <input type="radio" name="opcion" value="norecordar">No Recordar<br>
+        <input type="submit" value="Crear cookie">
+    </form>
+    <h3>Ejercicio Punto 37</h3>
+    <form action="capturaTallerTres.php" method="POST">
+        Ingresar mail:
+        <input type="text" name="mailalum"><br>
+        <input type="submit" value="Buscar">
+    </form>
+    <h3>Ejercicio Punto 38</h3>
     <?php 
-        $dia = 24;
-        $sueldo = 758.43;
-        $nombre = "Juan";
-        $existe = true;
-        echo "Variable entera: ", $dia;
-        echo "<br>";
-        echo "Variable double: ", $sueldo;
-        echo "<br>";
-        echo "Variable string: ", $nombre;
-        echo "<br>";
-        echo "Variable boolean: ", $existe;
+        require_once("capturaTallerTres.php");
+        $conectado = retornarConexion();           
+        
     ?>
-    <h3>Ejercicio Punto 6</h3>
+    <h3>Ejercicio Punto 39</h3>
     <?php 
-        $cantidad = 5;
-        $precio = 25;
-        $iva = 20;
-        echo "Hay $cantidad audifonos a un precio de $precio dolares, y el iva es del $iva %";
-    ?>
-    <h3>Ejercicio Punto 7</h3>
-    <?php 
-        $valor = rand(1, 3);
-        if($valor == 1) {
-            echo "Uno";
-        }else if($valor == 2){
-            echo "Dos";
-        } else {
-            echo "Tres";
+        if(isset($_REQUEST['error'])){
+            echo "Ingreso de clave incorrecta";
         }
     ?>
-    <h3>Ejercicio Punto 8</h3>
-    <?php 
-        echo "CICLO FOR<br>";
-        for ($f=2; $f<=20; $f=$f+2){
-            echo " $f -";
-        }
-        echo "<br>";
-        echo "CICLO WHILE<br>";
-        $inicio = 2;
-        while($inicio <= 20) {
-            echo " $inicio -";
-            $inicio = $inicio+2;
-        }
-        echo "<br>";
-        echo "CICLO DO-WHILE<br>";
-        $inicio = 2;
-        do {
-            echo " $inicio -";
-            $inicio = $inicio+2;
-        } while($inicio <= 20);
-    ?>
-    <h3>Ejercicio Punto 9</h3>
-    <form method="post" action="capturaDos.php">
-        <label>Ingrese su nombre:</label>
-        <input type="text" name="nombre">
+    <form action="capturaTallerTres.php" method="POST">
+        Ingrese la clave (ej z80):
+        <input type="password" name="claveform"><br>
+        <input type="submit" value="Enviar Clave">
+    </form>
+    <h3>Ejercicio Punto 40</h3>
+    <a href="./boton.php">Ir al boton</a>
+    <h3>Ejercicio Punto 41</h3>
+    <form method="post" action="capturaTallerTres.php">
+        <label>Ingrese la direccion de un sitio web (ej www.google.com):</label>
+        <input type="text" name="direccionweb">
         <br>
-        <label>Ingrese su edad:</label>
-        <input type="number" name="edad">
+        <label>De puntaje al sitio:</label>
+        <select name="puntos">
+            <?php 
+                for($f=0;$f<=5;$f++){
+                    echo "<option value='$f'>$f</option>";
+                }
+            ?>
+        </select>
         <br>
         <input type="submit" value="confirmar">
     </form>
-    <h3>Ejercicio Punto 10</h3>
-    <form method="post" action="capturaDos.php">
+    <h3>Ejercicio Punto 42</h3>
+    <form method="post" action="capturaTallerTres.php">
         <label>Ingrese su nombre:</label>
-        <input type="text" name="nombre2">
-        <br>
-        <input type="radio" name="radio1" value="noEstudio">No Tiene Estudios
-        <br>
-        <input type="radio" name="radio1" value="primario">Estudios Primarios
-        <br>
-        <input type="radio" name="radio1" value="secundario">Estudios Secundarios
-        <br>
-        <input type="submit">
+        <input type="text" name="nombrevisi"><br>
+        <textarea name="queja" cols="30" rows="10"></textarea><br>
+        <input type="submit" value="Poner Queja">
     </form>
-    <h3>Ejercicio Punto 11</h3>
-    <form method="post" action="capturaDos.php">
-        <label>Ingrese su nombre:</label>
-        <input type="text" name="nombre">
+    <a href='capturaTallerTres.php?logrado=1'>Ir al archivo de quejas</a>
+    <h3>Ejercicio Punto 43</h3>
+    <form method="post" action="capturaTallerTres.php">
+        <label>Ingrese la fecha (dd/mm/aaaa):</label>
+        <select name="dia">
+            <?php 
+                for ($i=1; $i <= 31; $i++) { 
+                    echo "<option value='$i'>$i</option>";
+                }
+            ?>
+        </select>
+        <select name="mes">
+            <?php 
+                for ($i=1; $i <= 12; $i++) { 
+                    echo "<option value='$i'>$i</option>";
+                }
+            ?>
+        </select>
+        <select name="anio">
+            <?php 
+                for ($i=2022; $i >= 1957; $i--) { 
+                    echo "<option value='$i'>$i</option>";
+                }
+            ?>
+        </select>
         <br>
-        <input type="checkbox" name="check1">Futbol
-        <br>
-        <input type="checkbox" name="check2">Basket
-        <br>
-        <input type="checkbox" name="check3">Tennis
-        <br>
-        <input type="checkbox" name="check4">Voley
-        <br>
-        <input type="submit">
+        <input type="hidden" value="punto43">
+        <input type="submit" value="Validar Fecha">
     </form>
-    <h3>Ejercicio Punto 13</h3>
-    <form method="POST" action="capturaDos.php">
-        <textarea name="contrato" cols="30" rows="10">
-            En la ciudad de [.....], se acuerda entre la Empresa [......]
-            representada por el SR. [.........] en su carácter de Apoderado,
-            con domicilio en la calle [..........] y el SR. [.............],
-            futuro empleado con domicilio en [..........], celebrar el presente
-            contrato a Plazo Fijo, de acuerdo a la normativa vigente de los
-            artículos 90,92,93,94,95 y concordante de la Ley de Contrato de Trabajo
-            N° 20.744.
-        </textarea>
+    <h3>Ejercicio Punto 44</h3>
+    <form method="post" action="capturaTallerTres.php">
+        <label>Ingrese nombre: </label>
+        <input type="text" name="nombre"><br>
+        <label>Ingrese mail: </label>
+        <input type="text" name="mail"><br>
+        <label>Ingrese la fecha (dd/mm/aaaa):</label>
+        <select name="dia">
+            <?php 
+                for ($i=1; $i <= 31; $i++) { 
+                    echo "<option value='$i'>$i</option>";
+                }
+            ?>
+        </select>
+        <select name="mes">
+            <?php 
+                for ($i=1; $i <= 12; $i++) { 
+                    echo "<option value='$i'>$i</option>";
+                }
+            ?>
+        </select>
+        <select name="anio">
+            <?php 
+                for ($i=2022; $i >= 1900; $i--) { 
+                    echo "<option value='$i'>$i</option>";
+                }
+            ?>
+        </select>
         <br>
-        <input type="submit">
+        <label>Seleccione el curso: </label>
+        <select name="codigocurso">
+            <?php 
+                $conexion = mysqli_connect("localhost", "root", "Noithyung15-25%", "base1")
+                or die("Problemas con la conexión.");
+
+                $registros = mysqli_query($conexion, "select codigo,nombrecurso from cursos")
+                or die("Problemas en el select: ".mysqli_error($conexion));
+                
+                while($reg = mysqli_fetch_array($registros)){
+                    echo "<option value=\"$reg[codigo]\">$reg[nombrecurso]</option>";
+                }
+            ?>
+        </select><br>
+        <input type="submit" value="Validar Fecha">
     </form>
-    <h3>Ejercicio Punto 14</h3>
+    <a href='captura2.php?listadoalu=1'>Ver listado alumnos</a>
+    <h3>Ejercicio Punto 45</h3>
+    <form method="post" action="capturaTallerTres.php">
+        <label>Ingrese nombre: </label>
+        <input type="text" name="nombre"><br>
+        <label>Ingrese mail: </label>
+        <input type="text" name="mail"><br>
+        <label>Donacion: </label>
+        <input type="text" name="donar"><br>
+        <input type="submit" value="Haga su donacion">
+    </form>
+    <h3>Ejercicio Punto 46</h3>
     <?php 
-        $diasSemana = array("Lunes", "Martes", "Miercoles", "Jueves", "viernes", "Sabado", "Domingo");
-        echo "$diasSemana[0] y ".$diasSemana[count($diasSemana)-1];
-    ?>
-    <h3>Ejercicio Punto 15</h3>
-    <form method="POST" action="capturaDos.php">
-        <label>Nombre: </label>
-        <input type="text" name="nombre2">
-        <br>
-        <label>Dirección: </label>
-        <input type="text" name="direccion">
-        <br>
-        <input type="checkbox" name="checkUno">Jamon y Queso
-        <br>
-        <label>Cantidad: </label>
-        <input type="text" name="cantidad1">
-        <br>
-        <input type="checkbox" name="checkDos">Napolitana
-        <br>
-        <label>Cantidad: </label>
-        <input type="text" name="cantidad2">
-        <br>
-        <input type="checkbox" name="checkTres">Muzzarella
-        <br>
-        <label>Cantidad: </label>
-        <input type="text" name="cantidad3">
-        <br>
-        <input type="submit" value="Confirmar">
-    </form>
-    <h3>Ejercicio Punto 17</h3>
-    <?php 
-        $clave = array('jey' => 'cnvjadncaiocnsd',
-                        'antonio' => 'cnjancjiacf1541',
-                        'uver' => 'mcdakmncoancia7484_/',
-                        'camila' => '515*-_csmaic_9u',
-                        'laura' => '__nscjans/*csac23');
-        echo "Clave de Laura: ".$clave['laura'];
+        $tabla = "";
+        for ($f=32; $f <= 255; $f++) { 
+            $tabla = $tabla . sprintf("%c", $f);
+        }
+        echo $tabla;
     ?>
 </body>
 </html>
